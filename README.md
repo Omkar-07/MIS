@@ -1,7 +1,13 @@
 # User Authentication and Employee Management System
 
+## 🌐 Live URL
+- **LIVE URL**: [netlify link](https://heroic-cupcake-046906.netlify.app)
+- ⏳ Note: The backend is deployed on a free server (Render). It may take 3-4 minutes to wake up if inactive. Please wait for the first request to process.
+
+---
+
 ## 📌 Project Overview
-This system consists of a **Spring Boot REST API** backend and a **React frontend** that provides user authentication and employee management features, including registration, login, password reset, and payroll management.
+This project consists of a **Spring Boot REST API** as the backend and a **React-based frontend** for user authentication and employee management. It includes features like user registration, login, password reset, and employee payroll management. The backend is deployed using **Docker Hub** and hosted on **Render**, while the database is managed using **Neon.tech PostgreSQL**. The frontend is hosted on **Netlify**.
 
 ## 🚀 Features
 ### Backend
@@ -11,23 +17,24 @@ This system consists of a **Spring Boot REST API** backend and a **React fronten
 - **Security**: Utilizes **Spring Security** with JWT authentication.
 
 ### Frontend
-- User Registration & Email Verification
-- Secure Login & Logout
-- Password Reset & Forgot Password
-- Employee Management
-- Payroll Management
-- Time & Attendance Tracking
-- Reports
-- Auto Logout on Inactivity (30 minutes)
+- **User Registration & Email Verification**
+- **Secure Login & Logout**
+- **Password Reset & Forgot Password**
+- **Employee Management**
+- **Payroll Management**
+- **Time & Attendance Tracking**
+- **Reports**
+- **Auto Logout on Inactivity (30 minutes)**
 
 ## 🛠️ Tech Stack
 - **Backend**: Java, Spring Boot, Spring Security, JWT
-- **Database**: MySQL / PostgreSQL
+- **Database**: PostgreSQL (via Neon.tech)
 - **Containerization**: Docker
-- **Hosting**: Render (via Docker Hub)
-- **Frontend**: React, React Router, MUI (Material-UI), Bootstrap, Axios
+- **Hosting**:
+  - **Backend**: Render (via Docker Hub)
+  - **Frontend**: Netlify
 
-## 📂 Project Structure
+## 📂 Backend Project Structure
 ```
 backend/
 │── src/
@@ -42,7 +49,52 @@ backend/
 │── Dockerfile  # Containerization setup
 │── .gitignore  # Files to ignore (includes .env)
 │── README.md  # Documentation
+```
 
+## ⚙️ Backend Installation & Setup
+### 1️⃣ Clone the Repository
+```sh
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
+```
+
+### 2️⃣ Setup Environment Variables
+Create a `.env` file in the root directory and add:
+```
+DB_URL=your_neon_tech_postgres_url
+DB_USERNAME=your_db_user
+DB_PASSWORD=your_db_password
+JWT_SECRET=your_jwt_secret
+```
+
+### 3️⃣ Build & Run the Application
+```sh
+mvn clean install
+mvn spring-boot:run
+```
+
+## 🐳 Running with Docker
+### 1️⃣ Build Docker Image
+```sh
+docker build -t your-dockerhub-username/auth-backend .
+```
+
+### 2️⃣ Run Docker Container
+```sh
+docker run -p 8080:8080 --env-file .env your-dockerhub-username/auth-backend
+```
+
+## 🚀 Backend Deployment on Render (via Docker Hub)
+1. Push your image to **Docker Hub**:
+   ```sh
+   docker push your-dockerhub-username/auth-backend
+   ```
+2. Deploy on **Render** by linking the Docker image.
+
+---
+
+## 📂 Frontend Project Structure
+```
 frontend/
 │── src/
 │   ├── components/     # Navbar, Login, Register, etc.
@@ -55,97 +107,46 @@ frontend/
 │── package.json        # Dependencies and scripts
 ```
 
-## ⚙️ Installation & Setup
+## ⚙️ Frontend Installation & Setup
 ### 1️⃣ Clone the Repository
 ```sh
 git clone https://github.com/your-username/your-repo.git
-cd your-repo
+cd your-repo/frontend
 ```
 
-### 2️⃣ Backend Setup
-#### Setup Environment Variables
-Create a `.env` file in the `backend/` directory and add:
-```
-DB_URL=your_database_url
-DB_USERNAME=your_db_user
-DB_PASSWORD=your_db_password
-JWT_SECRET=your_jwt_secret
-```
-
-#### Build & Run the Application
+### 2️⃣ Install Dependencies
 ```sh
-cd backend
-mvn clean install
-mvn spring-boot:run
-```
-
-### 3️⃣ Frontend Setup
-#### Install dependencies
-```sh
-cd frontend
 npm install
 ```
-#### Set up environment variables
-- Create a `.env` file in the `frontend/` directory.
-- Add the following variables:
-  ```env
-  REACT_APP_API_URL=http://your-backend-url
-  ```
-#### Run the application
+
+### 3️⃣ Set Up Environment Variables
+Create a `.env` file in the root directory:
+```
+REACT_APP_API_URL=https://your-backend-url
+```
+
+### 4️⃣ Run the Application
 ```sh
 npm run dev
 ```
 
-## 🐳 Running Backend with Docker
-### 1️⃣ Build Docker Image
-```sh
-docker build -t your-dockerhub-username/auth-backend .
-```
-
-### 2️⃣ Run Docker Container
-```sh
-docker run -p 8080:8080 --env-file .env your-dockerhub-username/auth-backend
-```
-
-## 🚀 Deployment
-### Backend Deployment on Render (via Docker Hub)
-1. Push your image to **Docker Hub**:
-   ```sh
-   docker push your-dockerhub-username/auth-backend
-   ```
-2. Deploy on **Render** by linking the Docker image.
-
-### Frontend Deployment on Netlify
-1. **Build the project**
+## 🚀 Frontend Deployment on Netlify
+1. **Build the project**:
    ```sh
    npm run build
    ```
 2. **Upload the `dist/` folder to Netlify**
-3. **Configure Netlify Redirects**
+3. **Configure Netlify Redirects** (For React Router)
    - Create a `_redirects` file in `public/`
    - Add this line:
      ```
      /* /index.html 200
      ```
 
-## API Integration
-- The frontend interacts with the backend API for authentication and user management.
-- Example API calls are handled in `services/authService.js`.
+## 📜 License
+This project is licensed under the MIT License.
 
-## Authentication Flow
-1. User registers → Email verification required
-2. User logs in → Token is stored in `localStorage`
-3. On inactivity for 30 minutes → Auto logout
-4. If the token is invalid → Redirect to login
-
-## Issues & Troubleshooting
-- If the login page is not found after deployment, check the **Netlify redirects**.
-- Ensure `REACT_APP_API_URL` is correctly set in `.env`.
-- If CORS errors occur, update backend CORS settings.
-
-## Contribution
-Contributions are welcome! Fork the repo and submit a pull request.
-
-## License
-MIT License
+---
+### 📞 Contact
+For any issues or improvements, feel free to open an **issue** or submit a **pull request**. 🚀
 
