@@ -1,4 +1,4 @@
-# User Authentication and Employee Management System
+# MIS & Invoicing System
 
 ## 🌐 Live URL
 - **LIVE URL**: [netlify link](https://heroic-cupcake-046906.netlify.app)
