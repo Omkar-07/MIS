@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { Typography, Box, Container, Paper, CircularProgress } from "@mui/material";
 import authService from "../services/authService";
 
-const EmployeeManagement = () => {
+const ManageBrands = () => {
   const navigate = useNavigate();
   const [isAuthorized, setIsAuthorized] = useState(null);
 
   useEffect(() => {
     const role = authService.getUserRole();
     if (role !== "ROLE_ADMIN") {
-      setTimeout(() => navigate("/dashboard"), 2000); 
+      setTimeout(() => navigate("/dashboard"), 2000);
       setIsAuthorized(false);
     } else {
       setIsAuthorized(true);
@@ -45,12 +45,10 @@ const EmployeeManagement = () => {
       <Box sx={{ marginTop: "80px", padding: "24px" }}>
         <Paper elevation={3} sx={{ padding: "32px", borderRadius: "8px" }}>
           <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold", color: "#1976d2" }}>
-            Employee Management
+            Manage Brands
           </Typography>
           <Typography variant="body1">
-            This is the Employee Management page. Here you can manage employees and their roles.
-            
-
+            This is the Manage Brands page. Here you can view and manage brand details.
           </Typography>
         </Paper>
       </Box>
@@ -58,4 +56,4 @@ const EmployeeManagement = () => {
   );
 };
 
-export default EmployeeManagement;
+export default ManageBrands;

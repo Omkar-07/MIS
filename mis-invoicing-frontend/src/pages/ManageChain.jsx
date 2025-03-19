@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { Typography, Box, Container, Paper, CircularProgress } from "@mui/material";
 import authService from "../services/authService";
 
-const Payroll = () => {
+const ManageChain = () => {
   const navigate = useNavigate();
   const [isAuthorized, setIsAuthorized] = useState(null);
 
   useEffect(() => {
     const role = authService.getUserRole();
     if (role !== "ROLE_ADMIN") {
-      setTimeout(() => navigate("/dashboard"), 2000); 
+      setTimeout(() => navigate("/dashboard"), 2000);
       setIsAuthorized(false);
     } else {
       setIsAuthorized(true);
@@ -45,10 +45,10 @@ const Payroll = () => {
       <Box sx={{ marginTop: "80px", padding: "24px" }}>
         <Paper elevation={3} sx={{ padding: "32px", borderRadius: "8px" }}>
           <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold", color: "#1976d2" }}>
-            Payroll
+            Manage Chain
           </Typography>
           <Typography variant="body1">
-            This is the Payroll page. Here you can view and manage payroll details.
+            This is the Manage Chain page. Here you can view and manage chain details.
           </Typography>
         </Paper>
       </Box>
@@ -56,4 +56,4 @@ const Payroll = () => {
   );
 };
 
-export default Payroll;
+export default ManageChain;

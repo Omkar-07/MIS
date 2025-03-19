@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -19,20 +19,25 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import PeopleIcon from "@mui/icons-material/People";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import ScheduleIcon from "@mui/icons-material/Schedule";
-import ReportIcon from "@mui/icons-material/Assessment";
+import GroupIcon from "@mui/icons-material/Group"; // Icon for Manage Groups
+import ChainIcon from "@mui/icons-material/Link"; // Icon for Manage Chain
+import BrandIcon from "@mui/icons-material/BrandingWatermark"; // Icon for Manage Brands
+import SubzoneIcon from "@mui/icons-material/Map"; // Icon for Manage SubZones
+import EstimateIcon from "@mui/icons-material/Calculate"; // Icon for Manage Estimate
+import InvoiceIcon from "@mui/icons-material/Receipt"; // Icon for Manage Invoices
 import LogoutIcon from "@mui/icons-material/Logout";
+import LockResetIcon from "@mui/icons-material/LockReset"; // Icon for Reset Password
 import authService from "../services/authService";
 
 const Navbar = ({ user, logout }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const navigate = useNavigate();
 
   const userRole = user ? authService.getUserRole() : null;
 
+  // Sidebar items with roles
   const sidebarItems = [
     {
       text: "Dashboard",
@@ -41,27 +46,39 @@ const Navbar = ({ user, logout }) => {
       roles: ["ROLE_ADMIN", "ROLE_SALES_PERSON"],
     },
     {
-      text: "Employee Management",
-      icon: <PeopleIcon />,
-      path: "/employee-management",
-      roles: ["ROLE_ADMIN"],
-    },
-    {
-      text: "Payroll",
-      icon: <AttachMoneyIcon />,
-      path: "/payroll",
-      roles: ["ROLE_ADMIN"],
-    },
-    {
-      text: "Time & Attendance",
-      icon: <ScheduleIcon />,
-      path: "/time-attendance",
+      text: "Manage Groups",
+      icon: <GroupIcon />,
+      path: "/dashboard", // Redirect to Dashboard for group management
       roles: ["ROLE_ADMIN", "ROLE_SALES_PERSON"],
     },
     {
-      text: "Reports",
-      icon: <ReportIcon />,
-      path: "/reports",
+      text: "Manage Chain",
+      icon: <ChainIcon />,
+      path: "/manage-chain",
+      roles: ["ROLE_ADMIN", "ROLE_SALES_PERSON"],
+    },
+    {
+      text: "Manage Brands",
+      icon: <BrandIcon />,
+      path: "/manage-brands",
+      roles: ["ROLE_ADMIN", "ROLE_SALES_PERSON"],
+    },
+    {
+      text: "Manage SubZones",
+      icon: <SubzoneIcon />,
+      path: "/manage-subzones",
+      roles: ["ROLE_ADMIN", "ROLE_SALES_PERSON"],
+    },
+    {
+      text: "Manage Estimate",
+      icon: <EstimateIcon />,
+      path: "/manage-estimate",
+      roles: ["ROLE_ADMIN", "ROLE_SALES_PERSON"],
+    },
+    {
+      text: "Manage Invoices",
+      icon: <InvoiceIcon />,
+      path: "/manage-invoices",
       roles: ["ROLE_ADMIN", "ROLE_SALES_PERSON"],
     },
   ];
@@ -71,6 +88,10 @@ const Navbar = ({ user, logout }) => {
 
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
+  };
+
+  const handleResetPassword = () => {
+    navigate("/forgot-password");
   };
 
   return (
@@ -89,14 +110,24 @@ const Navbar = ({ user, logout }) => {
           {!isMobile && (
             <Box>
               {user ? (
-                <Button
-                  color="inherit"
-                  onClick={logout}
-                  startIcon={<LogoutIcon />}
-                  sx={{ textTransform: "none", padding: "8px 16px" }}
-                >
-                  Logout
-                </Button>
+                <>
+                  <Button
+                    color="inherit"
+                    onClick={handleResetPassword}
+                    startIcon={<LockResetIcon />}
+                    sx={{ textTransform: "none", marginRight: 2 }}
+                  >
+                    Reset Password
+                  </Button>
+                  <Button
+                    color="inherit"
+                    onClick={logout}
+                    startIcon={<LogoutIcon />}
+                    sx={{ textTransform: "none" }}
+                  >
+                    Logout
+                  </Button>
+                </>
               ) : (
                 <>
                   <Button
@@ -127,6 +158,7 @@ const Navbar = ({ user, logout }) => {
         </Toolbar>
       </AppBar>
 
+      {/* Sidebar - Only show if user is authenticated */}
       {user && (
         <Drawer
           variant={isMobile ? "temporary" : "permanent"}

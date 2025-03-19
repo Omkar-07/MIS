@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { Typography, Box, Container, Paper, CircularProgress } from "@mui/material";
 import authService from "../services/authService";
 
-const Reports = () => {
+const ManageInvoices = () => {
   const navigate = useNavigate();
   const [isAuthorized, setIsAuthorized] = useState(null);
 
   useEffect(() => {
     const role = authService.getUserRole();
-    if (!["ROLE_ADMIN", "ROLE_SALES_PERSON"].includes(role)) {
-      setTimeout(() => navigate("/dashboard"), 2000); 
+    if (role !== "ROLE_ADMIN") {
+      setTimeout(() => navigate("/dashboard"), 2000);
       setIsAuthorized(false);
     } else {
       setIsAuthorized(true);
@@ -45,10 +45,10 @@ const Reports = () => {
       <Box sx={{ marginTop: "80px", padding: "24px" }}>
         <Paper elevation={3} sx={{ padding: "32px", borderRadius: "8px" }}>
           <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold", color: "#1976d2" }}>
-            Reports
+            Manage Invoices
           </Typography>
           <Typography variant="body1">
-            This is the Reports page. Here you can generate and view reports.
+            This is the Manage Invoices page. Here you can view and manage invoices.
           </Typography>
         </Paper>
       </Box>
@@ -56,4 +56,4 @@ const Reports = () => {
   );
 };
 
-export default Reports;
+export default ManageInvoices;
