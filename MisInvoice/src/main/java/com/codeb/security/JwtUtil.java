@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class JwtUtil {
-	 private static final Logger logger = LoggerFactory.getLogger(UserService.class); // Logger instance
+
 
     @Value("${jwt.secret-key}")
     private String SECRET_KEY;
@@ -36,7 +36,7 @@ public class JwtUtil {
 
     public String extractUsername(String token) {
         String email = extractClaim(token, Claims::getSubject);
-        logger.info("Extracted email from JWT: {}", email);
+
         return email;
     }
 

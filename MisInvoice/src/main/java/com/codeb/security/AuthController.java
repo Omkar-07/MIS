@@ -34,7 +34,7 @@ public class AuthController {
     
     private final UserService userService;
     private final JwtUtil jwtUtil;
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class); 
+
     private final UserRepository userRepository;
 
     @PostMapping("/register")
@@ -54,7 +54,7 @@ public class AuthController {
                 return ResponseEntity.badRequest().body("Invalid or expired token, or user already verified");
             }
         } catch (Exception e) {
-            logger.error("Error verifying user: {}", e.getMessage());
+
             return ResponseEntity.badRequest().body("An error occurred while verifying the token");
         }
     }
@@ -64,13 +64,13 @@ public class AuthController {
             String token = userService.loginUser(loginDTO);
             return ResponseEntity.ok(token);
         } catch (InvalidCredentialsException e) {
-            logger.error("InvalidCredentialsException: {}", e.getMessage());
+
             throw e; 
         } catch (EmailNotVerifiedException e) {
-            logger.error("EmailNotVerifiedException: {}", e.getMessage());
+
             throw e; 
         } catch (Exception e) {
-            logger.error("Unexpected error during login: {}", e.getMessage());
+
             throw new RuntimeException("An error occurred during login", e);
         }
     }
@@ -98,14 +98,14 @@ public class AuthController {
     @PostMapping("/logout")
     public ResponseEntity<String> logout(@RequestHeader("Authorization") String token) {
         try {
-            logger.info("Logout request received"); 
+
             String jwtToken = token.replace("Bearer ", "");
-            logger.info("Extracted JWT token: {}", jwtToken); 
+
             jwtUtil.invalidateToken(jwtToken);
-            logger.info("Token invalidated successfully: {}", jwtToken); 
+//            logger.info("Token invalidated successfully: {}", jwtToken);
             return ResponseEntity.ok("Logged out successfully");
         } catch (Exception e) {
-            logger.error("Error during logout: {}", e.getMessage()); 
+
             return ResponseEntity.badRequest().body("Logout failed");
         }
     }
@@ -118,10 +118,4 @@ public class AuthController {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         return ResponseEntity.ok(Map.of("email", user.getEmail()));
     }
-
-
-
-
-
-
 }

@@ -3,6 +3,7 @@ package com.codeb.entity;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -46,7 +47,7 @@ public class Group {
 
     @ManyToOne
     @JoinColumn(name = "chain_id")
-    @JsonIgnore
+    @JsonBackReference
     private Chain chain;
 
     @ManyToOne

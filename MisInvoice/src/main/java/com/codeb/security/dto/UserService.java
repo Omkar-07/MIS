@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);    
+//    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -36,7 +36,7 @@ public class UserService {
     private String frontendUrl;
 
     public User registerUser(UserRegistrationDTO registrationDTO) {
-        logger.info("Registering new user with email: {}", registrationDTO.getEmail());
+//        logger.info("Registering new user with email: {}", registrationDTO.getEmail());
 
         User user = new User();
         user.setName(registrationDTO.getName());
@@ -53,18 +53,18 @@ public class UserService {
         
         sendVerificationEmail(user.getEmail(), user.getVerificationToken());
 
-        logger.info("User registered successfully: {}", user.getEmail());
+//        logger.info("User registered successfully: {}", user.getEmail());
         return user;
     }
 
 
     
     public boolean verifyUser(String token) {
-        logger.info("Attempting to verify user with token: {}", token);
+//        logger.info("Attempting to verify user with token: {}", token);
 
         Optional<User> userOptional = userRepository.findByVerificationToken(token);
         if (userOptional.isEmpty()) {
-            logger.error("Invalid token: {}", token);
+//            logger.error("Invalid token: {}", token);
             return false;
         }
 
@@ -72,13 +72,13 @@ public class UserService {
 
         
         if (user.isEnabled()) {
-            logger.info("User is already verified: {}", user.getEmail());
+//            logger.info("User is already verified: {}", user.getEmail());
             return true;
         }
 
         
         if (user.getVerificationTokenExpiry().isBefore(LocalDateTime.now())) {
-            logger.error("Expired token: {}", token);
+//            logger.error("Expired token: {}", token);
             return false;
         }
 
@@ -87,13 +87,13 @@ public class UserService {
         
         userRepository.save(user);
 
-        logger.info("User successfully verified: {}", user.getEmail());
+//        logger.info("User successfully verified: {}", user.getEmail());
         return true;
     }
 
 
     public void sendVerificationEmail(String email, String token) {
-        logger.info("Sending verification email to: {}", email);
+//        logger.info("Sending verification email to: {}", email);
 
         String subject = "Email Verification";
         String verificationUrl = frontendUrl + "/verify-email?token=" + token;
@@ -106,39 +106,39 @@ public class UserService {
         mailMessage.setText(message);
         mailSender.send(mailMessage);
 
-        logger.info("Verification email sent to: {}", email);
+//        logger.info("Verification email sent to: {}", email);
     }
 
     public String loginUser(UserLoginDTO loginDTO) {
-        logger.info("Attempting login for user: {}", loginDTO.getEmail());
+//        logger.info("Attempting login for user: {}", loginDTO.getEmail());
 
         User user = userRepository.findByEmail(loginDTO.getEmail())
                 .orElseThrow(() -> {
-                    logger.error("User not found: {}", loginDTO.getEmail());
+//                    logger.error("User not found: {}", loginDTO.getEmail());
                     return new InvalidCredentialsException("Invalid email or password");
                 });
 
         if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
-            logger.error("Invalid password for user: {}", loginDTO.getEmail());
+//            logger.error("Invalid password for user: {}", loginDTO.getEmail());
             throw new InvalidCredentialsException("Invalid email or password");
         }
 
         if (!user.isEnabled()) {
-            logger.error("Email not verified for user: {}", loginDTO.getEmail());
+//            logger.error("Email not verified for user: {}", loginDTO.getEmail());
             throw new EmailNotVerifiedException("Email not verified. Please verify your email to log in.");
         }
 
         String jwtToken = jwtUtil.generateToken(user);
-        logger.info("Login successful for user: {}", loginDTO.getEmail());
+//        logger.info("Login successful for user: {}", loginDTO.getEmail());
         return jwtToken;
     }
 
     public void forgotPassword(ForgotPasswordDTO forgotPasswordDTO) {
-        logger.info("Processing forgot password request for: {}", forgotPasswordDTO.getEmail());
+//        logger.info("Processing forgot password request for: {}", forgotPasswordDTO.getEmail());
 
         User user = userRepository.findByEmail(forgotPasswordDTO.getEmail())
                 .orElseThrow(() -> {
-                    logger.error("User not found: {}", forgotPasswordDTO.getEmail());
+//                    logger.error("User not found: {}", forgotPasswordDTO.getEmail());
                     return new RuntimeException("User not found");
                 });
 
@@ -149,13 +149,13 @@ public class UserService {
       
         sendResetPasswordEmail(user.getEmail(), resetToken);
 
-        logger.info("Reset password email sent to: {}", user.getEmail());
+//        logger.info("Reset password email sent to: {}", user.getEmail());
     }
 
 	
 
     public void resetPassword(ResetPasswordDTO resetPasswordDTO, boolean isLoggedIn, String authToken) {
-        logger.info("Resetting password...");
+//        logger.info("Resetting password...");
 
         User user;
 
@@ -164,19 +164,19 @@ public class UserService {
             String email = jwtUtil.extractUsername(authToken); 
             user = userRepository.findByEmail(email)
                 .orElseThrow(() -> {
-                    logger.error("User not found: {}", email);
+//                    logger.error("User not found: {}", email);
                     return new RuntimeException("User not found");
                 });
         } else {
             
             user = userRepository.findByVerificationToken(resetPasswordDTO.getToken())
                 .orElseThrow(() -> {
-                    logger.error("Invalid verification token: {}", resetPasswordDTO.getToken());
+//                    logger.error("Invalid verification token: {}", resetPasswordDTO.getToken());
                     return new RuntimeException("Invalid token");
                 });
 
             if (user.isVerificationTokenExpired()) {
-                logger.error("Expired verification token: {}", resetPasswordDTO.getToken());
+//                logger.error("Expired verification token: {}", resetPasswordDTO.getToken());
                 throw new RuntimeException("Token has expired");
             }
 
@@ -186,11 +186,11 @@ public class UserService {
         }
 
         
-        logger.info("Updating password for user: {}", user.getEmail());
+//        logger.info("Updating password for user: {}", user.getEmail());
         user.setPassword(passwordEncoder.encode(resetPasswordDTO.getNewPassword()));
 
         userRepository.save(user);
-        logger.info("Password reset successfully for user: {}", user.getEmail());
+//        logger.info("Password reset successfully for user: {}", user.getEmail());
     }
 
 
@@ -199,7 +199,7 @@ public class UserService {
 
 
     public void sendResetPasswordEmail(String email, String token) {
-        logger.info("Sending reset password email to: {}", email);
+//        logger.info("Sending reset password email to: {}", email);
 
         String subject = "Password Reset";
         String resetUrl = frontendUrl + "/reset-password?token=" + token;
@@ -212,6 +212,6 @@ public class UserService {
         mailMessage.setText(message);
         mailSender.send(mailMessage);
 
-        logger.info("Reset password email sent to: {}", email);
+//        logger.info("Reset password email sent to: {}", email);
     }
 }

@@ -11,23 +11,23 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+//    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<String> handleInvalidCredentialsException(InvalidCredentialsException e) {
-        logger.error("Handling InvalidCredentialsException: {}", e.getMessage());
+
         return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED); // Ensure 401
     }
 
     @ExceptionHandler(EmailNotVerifiedException.class)
     public ResponseEntity<String> handleEmailNotVerifiedException(EmailNotVerifiedException e) {
-        logger.error("Handling EmailNotVerifiedException: {}", e.getMessage());
+
         return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN); // Ensure 403
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGenericException(Exception e) {
-        logger.error("Handling Generic Exception: {}", e.getMessage());
+
         return new ResponseEntity<>("An error occurred. Please try again later.", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

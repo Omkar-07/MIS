@@ -19,6 +19,8 @@ import ManageBrands from "./pages/ManageBrands";
 import ManageSubZones from "./pages/ManageSubZones";
 import ManageEstimate from "./pages/ManageEstimate";
 import ManageInvoices from "./pages/ManageInvoices";
+import AddChain from "./pageComponents/AddChain";
+import EditChain from "./pageComponents/EditChain";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -63,6 +65,8 @@ const App = () => {
             <Route path="add-group" element={<AddGroup />} />
             <Route path="edit-group/:groupId" element={<EditGroup />} />
             <Route path="manage-chain" element={<ManageChain />} />
+            <Route path="add-chain" element={<AddChain />} />
+            <Route path="edit-chain/:chainId" element={<EditChain />} />
             <Route path="manage-brands" element={<ManageBrands />} />
             <Route path="manage-subzones" element={<ManageSubZones />} />
             <Route path="manage-estimate" element={<ManageEstimate />} />
