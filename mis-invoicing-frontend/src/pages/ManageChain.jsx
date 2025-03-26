@@ -22,7 +22,7 @@ import {
 } from "@mui/material";
 import authService from "../services/authService";
 import chainService from "../services/chainService";
-import { getAllGroups } from "../services/groupService"; // Correct named import
+import { getAllGroups } from "../services/groupService"; 
 import AddChain from "../pageComponents/AddChain";
 import EditChain from "../pageComponents/EditChain";
 
