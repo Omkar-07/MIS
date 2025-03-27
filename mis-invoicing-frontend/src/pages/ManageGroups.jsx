@@ -56,6 +56,7 @@ const ManageGroups = () => {
   };
 
   return (
+    
     <Box sx={{ padding: 4 }}>
       <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold", color: "#1976d2" }}>
         Manage Groups

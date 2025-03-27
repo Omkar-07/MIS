@@ -50,10 +50,6 @@ public class Group {
     @JsonBackReference
     private Chain chain;
 
-    @ManyToOne
-    @JoinColumn(name = "subzone_id")
-    @JsonIgnore
-    private Subzone subzone;
 
     @Column(nullable = false)
     private boolean isActive = true;

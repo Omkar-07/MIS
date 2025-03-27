@@ -179,7 +179,7 @@ const ManageBrands = () => {
 
   return (
     <Container maxWidth="lg">
-      <Box sx={{ marginTop: "80px", padding: "24px" }}>
+      <Box sx={{ marginTop: "20px", padding: "24px" }}>
         <Paper elevation={3} sx={{ padding: "32px", borderRadius: "8px" }}>
           <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold", color: "primary.main" }}>
             Manage Brands

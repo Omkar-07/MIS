@@ -1,17 +1,21 @@
 package com.codeb.entity;
 
-import java.util.Set;
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,15 +33,22 @@ public class Subzone {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "zone_name", length = 50, nullable = false)
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "brand_id") // Foreign key to Brand
-    private Brand brand; // Relationship with Brand entity
+    @JoinColumn(name = "brand_id", nullable = false)
+    @JsonIgnoreProperties({"subzones", "chain"})
+    private Brand brand;
 
-    @OneToMany(mappedBy = "subzone")
-    private Set<Client> clients;
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive = true;
 
-    @OneToMany(mappedBy = "subzone")
-    private Set<Group> groups;
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 }

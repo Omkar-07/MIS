@@ -113,7 +113,7 @@ const ManageChain = () => {
   if (!isAuthorized) {
     return (
       <Container maxWidth="sm">
-        <Box sx={{ textAlign: "center", marginTop: "80px", padding: "24px" }}>
+        <Box sx={{ textAlign: "center", marginTop: "20px", padding: "24px" }}>
           <Typography variant="h6" sx={{ color: "error.main", fontWeight: "bold" }}>
             Access Denied
           </Typography>
