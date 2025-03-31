@@ -46,8 +46,7 @@ public class Client {
     @JsonIgnore
     private Subzone subzone;
 
-    @OneToMany(mappedBy = "client")
-    private Set<Estimate> estimates;
+
 
     @OneToMany(mappedBy = "client")
     private Set<Invoice> invoices;
