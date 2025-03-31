@@ -30,7 +30,7 @@ const createSubzone = async (subzoneData) => {
 // Get all active subzones
 const getAllActiveSubzones = async () => {
     try {
-      const response = await axios.get(API_URL, { // Remove "/active" from URL
+      const response = await axios.get(API_URL, { 
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

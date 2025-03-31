@@ -17,12 +17,15 @@ import Layout from "./pageComponents/Layout";
 import ManageChain from "./pages/ManageChain";
 import ManageBrands from "./pages/ManageBrands";
 import ManageSubZones from "./pages/ManageSubZones";
-import ManageEstimate from "./pages/ManageEstimate";
+// import ManageEstimate from "./pages/ManageEstimate";
 import ManageInvoices from "./pages/ManageInvoices";
 import AddChain from "./pageComponents/AddChain";
 import EditChain from "./pageComponents/EditChain";
 import AddBrand from "./pageComponents/AddBrand";
 import EditBrand from "./pageComponents/EditBrand";
+import CreateEstimate from "./pageComponents/CreateEstimate";
+import EditEstimate from "./pageComponents/EditEstimate";
+import ManageEstimates from "./pages/ManageEstimates";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -73,8 +76,11 @@ const App = () => {
             <Route path="add-brand" element={<AddBrand />} />
             <Route path="edit-brand/:brandId" element={<EditBrand />} />
             <Route path="manage-subzones" element={<ManageSubZones />} />
-            <Route path="manage-estimate" element={<ManageEstimate />} />
+            {/* <Route path="manage-estimate" element={<ManageEstimate />} /> */}
             <Route path="manage-invoices" element={<ManageInvoices />} />
+            <Route path="manage-estimate" element={<ManageEstimates />} />
+            <Route path="create-estimate" element={<CreateEstimate />} />
+            <Route path="edit-estimate/:estimateId" element={<EditEstimate />} />
           </Route>
         ) : (
           <Route path="*" element={<Navigate to="/login" />} />
