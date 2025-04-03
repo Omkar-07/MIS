@@ -1,8 +1,9 @@
 package com.codeb.entity;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
@@ -48,7 +49,17 @@ public class Chain {
     private Group group;
 
     @OneToMany(mappedBy = "chain")
-    private Set<Brand> brands;
+    @JsonIgnore
+    private List<Brand> brands;
+
+    @OneToMany(mappedBy = "chain")
+    @JsonIgnore
+    private List<Estimate> estimates;
+
+    @OneToMany(mappedBy = "chain")
+    @JsonIgnore
+    private List<Invoice> invoices;
+
 
     @PrePersist
     protected void onCreate() {

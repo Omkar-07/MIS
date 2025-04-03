@@ -48,8 +48,8 @@ public class Client {
 
 
 
-    @OneToMany(mappedBy = "client")
-    private Set<Invoice> invoices;
+//    @OneToMany(mappedBy = "client")
+//    private Set<Invoice> invoices;
 
    
 }

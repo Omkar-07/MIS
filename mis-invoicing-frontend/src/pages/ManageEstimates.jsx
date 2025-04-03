@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { Receipt as InvoiceIcon } from "@mui/icons-material";
 import {
   Typography,
   Box,
@@ -21,7 +22,10 @@ import {
   MenuItem,
   Stack,
   IconButton,
+  Card,
+  CardContent
 } from "@mui/material";
+
 import { Add, Edit, Delete, Refresh } from "@mui/icons-material";
 import authService from "../services/authService";
 import estimateService from "../services/estimateService";
@@ -105,16 +109,16 @@ const ManageEstimates = () => {
 
   const handleEditClick = (estimate) => {
     console.log("Selected estimate:", estimate);
-    
-    
+
+
     if (!estimate?.estimateId) {
       showSnackbar('Selected estimate has no ID', 'error');
       return;
     }
-    
+
     setSelectedEstimate({
       ...estimate,
-      id: estimate.estimateId.toString(), 
+      id: estimate.estimateId.toString(),
       groupId: estimate.groupId?.toString() || "",
       chainId: estimate.chainId?.toString() || "",
       brandId: estimate.brandId?.toString() || "",
@@ -306,176 +310,206 @@ const ManageEstimates = () => {
           <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold", color: "primary.main" }}>
             Manage Estimates
           </Typography>
-
-          {/* Filter Section */}
-          <Stack direction="row" spacing={2} sx={{ mb: 3 }} flexWrap="wrap">
-            <FormControl sx={{ minWidth: 200, mb: 2 }}>
-              <InputLabel>Filter by Group</InputLabel>
-              <Select
-                value={selectedGroup}
-                onChange={(e) => setSelectedGroup(e.target.value)}
-                label="Filter by Group"
-              >
-                <MenuItem value="all">All Groups</MenuItem>
-                {groups.map((group) => (
-                  <MenuItem key={group.id} value={group.id}>
-                    {group.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <FormControl sx={{ minWidth: 200, mb: 2 }}>
-              <InputLabel>Filter by Chain</InputLabel>
-              <Select
-                value={selectedChain}
-                onChange={(e) => setSelectedChain(e.target.value)}
-                label="Filter by Chain"
-              >
-                <MenuItem value="all">All Chains</MenuItem>
-                {chains.map((chain) => (
-                  <MenuItem key={chain.chainId} value={chain.chainId}>
-                    {chain.companyName}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <FormControl sx={{ minWidth: 200, mb: 2 }}>
-              <InputLabel>Filter by Brand</InputLabel>
-              <Select
-                value={selectedBrand}
-                onChange={(e) => setSelectedBrand(e.target.value)}
-                label="Filter by Brand"
-                disabled={isLoading.brands}
-              >
-                <MenuItem value="all">All Brands</MenuItem>
-                {brands.map((brand) => (
-                  <MenuItem key={brand.id} value={brand.brandName}>
-                    {brand.brandName}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <FormControl sx={{ minWidth: 200, mb: 2 }}>
-              <InputLabel>Filter by Zone</InputLabel>
-              <Select
-                value={selectedSubzone}
-                onChange={(e) => setSelectedSubzone(e.target.value)}
-                label="Filter by Zone"
-                disabled={isLoading.subzones}
-              >
-                <MenuItem value="all">All Zones</MenuItem>
-                {subzones.map((subzone) => (
-                  <MenuItem key={subzone.id} value={subzone.name}>
-                    {subzone.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <Button
-              variant="outlined"
-              onClick={resetFilters}
-              sx={{ mb: 2, height: '56px' }}
-            >
-              Reset Filters
-            </Button>
-
-            <Button
-              variant="contained"
-              startIcon={<Add />}
-              onClick={() => setOpenCreateEstimate(true)}
-              sx={{ mb: 2, ml: "auto", height: '56px' }}
-            >
-              Create Estimate
-            </Button>
-
-            <Button
-              variant="outlined"
-              startIcon={<Refresh />}
-              onClick={() => {
-                fetchChains().then(fetchEstimates);
-              }}
-              sx={{ mb: 2, height: '56px' }}
-            >
-              Refresh Data
-            </Button>
-          </Stack>
-
-          {/* Estimates Table */}
-          {isLoading.estimates ? (
-            <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
-              <CircularProgress />
-              <Typography variant="body1" sx={{ ml: 2 }}>
-                Loading estimates...
-              </Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
+            <Card sx={{ minWidth: 200 }}>
+              <CardContent>
+                <Typography variant="h6" component="div">
+                  Total Estimates
+                </Typography>
+                <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
+                  {filteredEstimates.length}
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                  Showing {filteredEstimates.length} of {estimates.length} estimates
+                </Typography>
+              </CardContent>
+            </Card>
             </Box>
-          ) : filteredEstimates.length === 0 ? (
-            <Box sx={{ py: 4, textAlign: "center" }}>
-              <Typography variant="body1" sx={{ mb: 2 }}>
-                No estimates found.
-              </Typography>
+
+            {/* Filter Section */}
+            <Stack direction="row" spacing={2} sx={{ mb: 3 }} flexWrap="wrap">
+              <FormControl sx={{ minWidth: 200, mb: 2 }}>
+                <InputLabel>Filter by Group</InputLabel>
+                <Select
+                  value={selectedGroup}
+                  onChange={(e) => setSelectedGroup(e.target.value)}
+                  label="Filter by Group"
+                >
+                  <MenuItem value="all">All Groups</MenuItem>
+                  {groups.map((group) => (
+                    <MenuItem key={group.id} value={group.id}>
+                      {group.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControl sx={{ minWidth: 200, mb: 2 }}>
+                <InputLabel>Filter by Chain</InputLabel>
+                <Select
+                  value={selectedChain}
+                  onChange={(e) => setSelectedChain(e.target.value)}
+                  label="Filter by Chain"
+                >
+                  <MenuItem value="all">All Chains</MenuItem>
+                  {chains.map((chain) => (
+                    <MenuItem key={chain.chainId} value={chain.chainId}>
+                      {chain.companyName}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControl sx={{ minWidth: 200, mb: 2 }}>
+                <InputLabel>Filter by Brand</InputLabel>
+                <Select
+                  value={selectedBrand}
+                  onChange={(e) => setSelectedBrand(e.target.value)}
+                  label="Filter by Brand"
+                  disabled={isLoading.brands}
+                >
+                  <MenuItem value="all">All Brands</MenuItem>
+                  {brands.map((brand) => (
+                    <MenuItem key={brand.id} value={brand.brandName}>
+                      {brand.brandName}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControl sx={{ minWidth: 200, mb: 2 }}>
+                <InputLabel>Filter by Zone</InputLabel>
+                <Select
+                  value={selectedSubzone}
+                  onChange={(e) => setSelectedSubzone(e.target.value)}
+                  label="Filter by Zone"
+                  disabled={isLoading.subzones}
+                >
+                  <MenuItem value="all">All Zones</MenuItem>
+                  {subzones.map((subzone) => (
+                    <MenuItem key={subzone.id} value={subzone.name}>
+                      {subzone.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
               <Button
                 variant="outlined"
-                onClick={fetchEstimates}
-                startIcon={<Refresh />}
+                onClick={resetFilters}
+                sx={{ mb: 2, height: '56px' }}
               >
-                Retry Loading
+                Reset Filters
               </Button>
-            </Box>
-          ) : (
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Sr.No</TableCell>
-                    <TableCell>Group</TableCell>
-                    <TableCell>Chain</TableCell>
-                    <TableCell>Brand</TableCell>
-                    <TableCell>Zone</TableCell>
-                    <TableCell>Service Details</TableCell>
-                    <TableCell align="right">Units</TableCell>
-                    <TableCell align="right">Price/Unit</TableCell>
-                    <TableCell align="right">Total</TableCell>
-                    <TableCell align="center">Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {filteredEstimates.map((estimate, index) => (
-                    <TableRow key={estimate.id ? `estimate-${estimate.id}` : `fallback-${index}`}>
-                      <TableCell>{index + 1}</TableCell>
-                      <TableCell>{estimate.groupName}</TableCell>
-                      <TableCell>{estimate.chainName}</TableCell>
-                      <TableCell>{estimate.brandName}</TableCell>
-                      <TableCell>{estimate.zoneName}</TableCell>
-                      <TableCell>{estimate.service}</TableCell>
-                      <TableCell align="right">{estimate.qty}</TableCell>
-                      <TableCell align="right">₹{estimate.costPerUnit.toFixed(2)}</TableCell>
-                      <TableCell align="right">₹{estimate.totalCost.toFixed(2)}</TableCell>
-                      <TableCell align="center">
-                        <Stack direction="row" spacing={1} justifyContent="center">
-                          <IconButton
-                            color="primary"
-                            onClick={() => handleEditClick(estimate)}
-                          >
-                            <Edit />
-                          </IconButton>
-                          <IconButton
-                            color="error"
-                            onClick={() => handleDelete(estimate.estimateId)} 
-                          >
-                            <Delete />
-                          </IconButton>
-                        </Stack>
-                      </TableCell>
+
+              <Button
+                variant="contained"
+                startIcon={<Add />}
+                onClick={() => setOpenCreateEstimate(true)}
+                sx={{ mb: 2, ml: "auto", height: '56px' }}
+              >
+                Create Estimate
+              </Button>
+
+              <Button
+                variant="outlined"
+                startIcon={<Refresh />}
+                onClick={() => {
+                  fetchChains().then(fetchEstimates);
+                }}
+                sx={{ mb: 2, height: '56px' }}
+              >
+                Refresh Data
+              </Button>
+            </Stack>
+
+            {/* Estimates Table */}
+            {isLoading.estimates ? (
+              <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
+                <CircularProgress />
+                <Typography variant="body1" sx={{ ml: 2 }}>
+                  Loading estimates...
+                </Typography>
+              </Box>
+            ) : filteredEstimates.length === 0 ? (
+              <Box sx={{ py: 4, textAlign: "center" }}>
+                <Typography variant="body1" sx={{ mb: 2 }}>
+                  No estimates found.
+                </Typography>
+                <Button
+                  variant="outlined"
+                  onClick={fetchEstimates}
+                  startIcon={<Refresh />}
+                >
+                  Retry Loading
+                </Button>
+              </Box>
+            ) : (
+              <TableContainer component={Paper}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Sr.No</TableCell>
+                      <TableCell>Group</TableCell>
+                      <TableCell>Chain</TableCell>
+                      <TableCell>Brand</TableCell>
+                      <TableCell>Zone</TableCell>
+                      <TableCell>Service Details</TableCell>
+                      <TableCell align="right">Units</TableCell>
+                      <TableCell align="right">Price/Unit</TableCell>
+                      <TableCell align="right">Total</TableCell>
+                      <TableCell align="center">Actions</TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          )}
+                  </TableHead>
+                  <TableBody>
+                    {filteredEstimates.map((estimate, index) => (
+                      <TableRow key={estimate.id ? `estimate-${estimate.id}` : `fallback-${index}`}>
+                        <TableCell>{index + 1}</TableCell>
+                        <TableCell>{estimate.groupName}</TableCell>
+                        <TableCell>{estimate.chainName}</TableCell>
+                        <TableCell>{estimate.brandName}</TableCell>
+                        <TableCell>{estimate.zoneName}</TableCell>
+                        <TableCell>{estimate.service}</TableCell>
+                        <TableCell align="right">{estimate.qty}</TableCell>
+                        <TableCell align="right">₹{estimate.costPerUnit.toFixed(2)}</TableCell>
+                        <TableCell align="right">₹{estimate.totalCost.toFixed(2)}</TableCell>
+                        <TableCell align="center">
+                          <Stack direction="row" spacing={1} justifyContent="center">
+                            <IconButton
+                              color="primary"
+                              onClick={() => handleEditClick(estimate)}
+                              title="Edit Estimate"
+                            >
+                              <Edit />
+                            </IconButton>
+                            <IconButton
+                              color="error"
+                              onClick={() => handleDelete(estimate.estimateId)}
+                              title="Delete Estimate"
+                            >
+                              <Delete />
+                            </IconButton>
+                            <IconButton
+                              color="success"
+                              onClick={() => {
+                                if (!estimate.estimateId) {
+                                  showSnackbar('Cannot generate invoice - missing estimate ID', 'error');
+                                  return;
+                                }
+                                navigate(`generate-invoice/${estimate.estimateId}`);
+                              }}
+                              title="Generate Invoice"
+                            >
+                              <InvoiceIcon />
+                            </IconButton>
+                          </Stack>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
         </Paper>
       </Box>
 
