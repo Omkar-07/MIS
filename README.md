@@ -1,7 +1,8 @@
 # MIS & Invoicing System
 
 ## 🌐 Live URL
-- **LIVE URL**: [netlify link](https://heroic-cupcake-046906.netlify.app)
+- **Frontend**: [Netlify Link](https://heroic-cupcake-046906.netlify.app)
+- **Backend**: Hosted on Render
 - ⏳ Note: The backend is deployed on a free server (Render). It may take 3-4 minutes to wake up if inactive. Please wait for the first request to process.
 
 ---
@@ -17,19 +18,21 @@ This project consists of a **Spring Boot REST API** as the backend and a **React
 - **Security**: Utilizes **Spring Security** with JWT authentication.
 
 ### Frontend
-- **User Registration & Email Verification**
-- **Secure Login & Logout**
-- **Password Reset & Forgot Password**
-- **Employee Management**
-- **Payroll Management**
-- **Time & Attendance Tracking**
-- **Reports**
-- **Auto Logout on Inactivity (30 minutes)**
+- **Manage Brands**
+- **Manage Chains**
+- **Manage Estimates**
+- **Manage Groups**
+- **Manage Invoices**
+- **Manage Subzones**
+- **Material UI for Styling**
+
 
 ## 🛠️ Tech Stack
 - **Backend**: Java, Spring Boot, Spring Security, JWT
 - **Database**: PostgreSQL (via Neon.tech)
 - **Containerization**: Docker
+- **Frontend**: React.js
+- **Styling**: Material UI
 - **Hosting**:
   - **Backend**: Render (via Docker Hub)
   - **Frontend**: Netlify
@@ -76,18 +79,18 @@ mvn spring-boot:run
 ## 🐳 Running with Docker
 ### 1️⃣ Build Docker Image
 ```sh
-docker build -t your-dockerhub-username/auth-backend .
+docker build -t username/auth-backend .
 ```
 
 ### 2️⃣ Run Docker Container
 ```sh
-docker run -p 8080:8080 --env-file .env your-dockerhub-username/auth-backend
+docker run -p 8080:8080 --env-file .env username/auth-backend
 ```
 
 ## 🚀 Backend Deployment on Render (via Docker Hub)
 1. Push your image to **Docker Hub**:
    ```sh
-   docker push your-dockerhub-username/auth-backend
+   docker push username/auth-backend
    ```
 2. Deploy on **Render** by linking the Docker image.
 
@@ -149,4 +152,3 @@ This project is licensed under the MIT License.
 ---
 ### 📞 Contact
 For any issues or improvements, feel free to open an **issue** or submit a **pull request**. 🚀
-
