@@ -57,7 +57,6 @@ const ManageInvoices = () => {
       const data = await invoiceService.getAllInvoices();
       console.log("API Response Data:", data);
 
-      // Transform API data to match component's expected structure
       const validatedInvoices = Array.isArray(data) ? data.map(invoice => ({
         id: invoice.id || '',
         invoice_no: invoice.invoiceNo || 'N/A',
@@ -111,7 +110,7 @@ const ManageInvoices = () => {
   };
 
   const handleDownloadPdf = async (id) => {
-    console.log('Downloading invoice with ID:', id); // Add this line
+    console.log('Downloading invoice with ID:', id);
     try {
       const invoice = invoices.find(inv => inv.id === id);
 
