@@ -61,20 +61,19 @@ const GenerateInvoice = () => {
         paymentDate: new Date().toISOString(),
       };
   
-      // Create the invoice and get full invoice data
+
       const createdInvoice = await invoiceService.createInvoice(invoiceData);
       
-      // Fetch the complete invoice to ensure we have invoiceNo
       const completeInvoice = await invoiceService.getInvoiceById(createdInvoice.id);
       
-      // Download the PDF with correct invoice number
+  
       const pdfData = await invoiceService.downloadInvoicePdf(completeInvoice.id);
       const blob = new Blob([pdfData], { type: 'application/pdf' });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
       
-      // Use the actual invoice number from the complete invoice data
+ 
       link.setAttribute('download', `${completeInvoice.invoiceNo}.pdf`);
       
       document.body.appendChild(link);
