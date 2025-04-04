@@ -28,14 +28,13 @@ public class PdfGenerationService {
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf);
 
-            // Title
+          
             Paragraph title = new Paragraph("INVOICE")
                     .setTextAlignment(TextAlignment.CENTER)
                     .setFontSize(18)
                     .setBold();
             document.add(title);
 
-            // Client Info Table (2 columns)
             Table infoTable = new Table(UnitValue.createPercentArray(new float[]{1, 1}));
             infoTable.setWidth(UnitValue.createPercentValue(100));
 
@@ -47,7 +46,6 @@ public class PdfGenerationService {
             document.add(infoTable);
             document.add(new Paragraph("\nService Details:").setBold().setFontSize(12));
 
-            // Service Table (4 columns)
             Table serviceTable = new Table(UnitValue.createPercentArray(new float[]{3, 1, 1, 1}));
             serviceTable.setWidth(UnitValue.createPercentValue(100));
 
@@ -60,7 +58,6 @@ public class PdfGenerationService {
 
             document.add(serviceTable);
 
-            // Totals Table (right-aligned)
             Table totalTable = new Table(UnitValue.createPercentArray(new float[]{1, 1}));
             totalTable.setWidth(UnitValue.createPercentValue(50));
             totalTable.setHorizontalAlignment(HorizontalAlignment.RIGHT);
