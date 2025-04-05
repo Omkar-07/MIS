@@ -5,26 +5,23 @@ import { jwtDecode } from 'jwt-decode';
 const API_URL = `${import.meta.env.VITE_API_URL}/api/auth`;
 
 
-// Register a new user
 const register = async (name, email, password, role) => {
   return await axios.post(`${API_URL}/register`, { name, email, password, role });
 };
 
-// Login user and save JWT token in localStorage
 const login = async (email, password) => {
   const response = await axios.post(`${API_URL}/login`, { email, password });
   if (response.data) {
     localStorage.setItem('token', response.data.token);
- // Save JWT token in localStorage
+ 
   }
   return response;
 };
 
-// Verify user email using the token
 const verifyEmail = async (token) => {
   try {
     const response = await axios.get(`${API_URL}/verify?token=${token}`);
-    return response.data; // Return the response data
+    return response.data; 
   } catch (error) {
     console.error("Error verifying email:", error.response?.data || error.message);
     throw error; 
@@ -36,7 +33,6 @@ const forgotPassword = async (email) => {
   return await axios.post(`${API_URL}/forgot-password`, { email });
 };
 
-// Reset user password using the token and new password
 const resetPassword = async (tokenOrJwt, newPassword, isLoggedIn) => {
   let headers = { "Content-Type": "application/json" };
   let requestBody = { newPassword };
@@ -72,8 +68,6 @@ const resetPassword = async (tokenOrJwt, newPassword, isLoggedIn) => {
 };
 
 
-
-// Get user role from the JWT token
 const getUserRole = () => {
   const token = localStorage.getItem('token');
   if (!token) return null;
@@ -89,7 +83,6 @@ const getUserRole = () => {
   }
 };
 
-// Logout user by removing the token and redirecting to the login page
 const logout = async () => {
   const token = localStorage.getItem('token');
   if (token) {
